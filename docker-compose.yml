@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=footballManager
+      - POSTGRES_USER=footballManager
+      - POSTGRES_DB=footballManager
+    networks:
+      - postgres
+
+networks:
+  postgres:
+    driver: bridge
