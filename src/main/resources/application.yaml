@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+
+  datasource:
+
+    url: jdbc:postgresql://localhost:${DB_PORT:5432}/${DB_NAME:footballManager}
+    username: ${DB_USER:footballManager}
+    password: ${DB_PASSWORD:footballManager}
+    driverClassName: org.postgresql.Driver
+  sql:
+    init:
+      platform: postgres
