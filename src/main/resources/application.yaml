@@ -3,7 +3,13 @@ spring:
     database: POSTGRESQL
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
+    generate-ddl: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
+
 
   datasource:
 

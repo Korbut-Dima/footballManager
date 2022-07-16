@@ -10,6 +10,19 @@ services:
       - POSTGRES_DB=footballManager
     networks:
       - postgres
+  footmallmanager:
+    build: .
+    ports:
+      - "8000:8080"
+    depends_on:
+      - db
+    environment:
+      - DB_NAME=farmtrade
+      - DB_USER=farmtrade
+      - DB_PASSWORD=farmtrade
+      - DB_PORT=5432
+    networks:
+      - postgres
 
 networks:
   postgres:
