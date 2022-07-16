@@ -1,36 +1,16 @@
-package com.footballManager.entities;
+package com.footballManager.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.sql.Date;
-
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name="players")
-public class Player {
-
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@AllArgsConstructor
+public class PlayerCreateUpdateDto {
     private String fullName;
     private Date dateOfBirth;
     private Date startOfCareer;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "team")
-    private Team team;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private Long team;
 
     public String getFullName() {
         return fullName;
@@ -56,11 +36,11 @@ public class Player {
         this.startOfCareer = startOfCareer;
     }
 
-    public Team getTeam() {
+    public Long getTeam() {
         return team;
     }
 
-    public void setTeam(Team team) {
+    public void setTeam(Long team) {
         this.team = team;
     }
 }
