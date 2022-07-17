@@ -1,6 +1,7 @@
 package com.footballManager.controllers;
 
 import com.footballManager.dto.PlayerCreateUpdateDto;
+import com.footballManager.dto.TransferDto;
 import com.footballManager.entities.Player;
 import com.footballManager.services.interfaces.PlayerService;
 import org.springframework.http.HttpStatus;
@@ -41,9 +42,9 @@ public class PlayerController {
         playerService.deletePlayer(id);
     }
 
-    @PostMapping("/transfer/{id}")
-    public Player transferPlayer(){
-        return null;
+    @PostMapping("/transfer")
+    public Player transferPlayer(@RequestBody TransferDto transferDto){
+        return playerService.transferPlayer(transferDto);
     }
 
 

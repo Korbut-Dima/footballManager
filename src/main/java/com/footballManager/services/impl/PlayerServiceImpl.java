@@ -1,12 +1,18 @@
 package com.footballManager.services.impl;
 
 import com.footballManager.dto.PlayerCreateUpdateDto;
+import com.footballManager.dto.TransferDto;
 import com.footballManager.entities.Player;
+import com.footballManager.entities.Team;
 import com.footballManager.repositories.PlayerRepository;
 import com.footballManager.repositories.TeamRepository;
 import com.footballManager.services.interfaces.PlayerService;
+import com.footballManager.utils.Calculation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
@@ -51,5 +57,27 @@ public class PlayerServiceImpl implements PlayerService {
     public void deletePlayer(Long id) {
         Player player = playerRepository.findById(id).get();
         playerRepository.delete(player);
+    }
+
+    @Override
+    public Player transferPlayer(TransferDto transferDto) {
+        Player playerToTransfer = playerRepository.findByFullName(transferDto.getNameOfPlayer());
+        Team teamBuyer = teamRepository.findByName(transferDto.getNameOfTeam());
+        Team teamSeller = playerToTransfer.getTeam();
+
+        BigDecimal valueOfTransfer = Calculation.getCostOfTransfer(
+                teamSeller.getCommissionForTransfer(),
+                playerToTransfer.getDateOfBirth(),
+                playerToTransfer.getStartOfCareer()
+        );
+
+        teamBuyer.setBalance(teamBuyer.getBalance().subtract(valueOfTransfer));
+        teamRepository.save(teamBuyer);
+
+        teamSeller.setBalance(teamSeller.getBalance().add(valueOfTransfer));
+        teamRepository.save(teamSeller);
+
+        playerToTransfer.setTeam(teamBuyer);
+        return playerRepository.save(playerToTransfer);
     }
 }
