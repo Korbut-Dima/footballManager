@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("players")
 public class PlayerController {
 
-   private PlayerService playerService;
+    private PlayerService playerService;
 
     public PlayerController(PlayerService playerService) {
         this.playerService = playerService;
