@@ -17,6 +17,6 @@ public class Calculation {
         Integer experience = Period.between(careerStart, current).getMonths()+
                 (Period.between(careerStart,current).getYears()*12);
 
-        return BigDecimal.valueOf(experience*1000000/age*(1+commissionForTransfer));
+        return BigDecimal.valueOf(experience*100000/age*(1+commissionForTransfer));
     }
 }
