@@ -26,7 +26,8 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public Set<Player> getPlayersByTeam(Long id) {
-        return teamRepository.findById(id).get().getPlayers();
+        Team team = teamRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
+        return team.getPlayers();
     }
 
     @Override

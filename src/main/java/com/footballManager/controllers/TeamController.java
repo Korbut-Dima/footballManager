@@ -19,26 +19,31 @@ public class TeamController {
         this.teamService = teamService;
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}/players")
     public Set<Player> getPlayersByTeam(@PathVariable Long id){
       return teamService.getPlayersByTeam(id);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public Team getTeam(@PathVariable Long id){
         return teamService.getTeam(id);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public Iterable<Team> getAllTeams(){
         return teamService.getAllTeams();
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Team createTeam(@RequestBody TeamCreateUpdateDto teamCreateUpdateDto){
         return teamService.createTeam(teamCreateUpdateDto);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
     public Team updateTeam(@RequestBody TeamCreateUpdateDto teamCreateUpdateDto, @PathVariable Long id){
         return teamService.updateTeam(teamCreateUpdateDto, id);

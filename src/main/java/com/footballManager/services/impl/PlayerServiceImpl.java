@@ -8,15 +8,13 @@ import com.footballManager.entities.Team;
 import com.footballManager.exceptions.ApiValidationException;
 import com.footballManager.exceptions.EntityNotFoundException;
 import com.footballManager.repositories.PlayerRepository;
-import com.footballManager.repositories.TeamRepository;
 import com.footballManager.services.interfaces.PlayerService;
 import com.footballManager.services.interfaces.TeamService;
-import com.footballManager.utils.Calculation;
+import com.footballManager.utils.CalculationUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
@@ -51,7 +49,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Player updatePlayer(Long id, PlayerCreateUpdateDto playerCreateUpdateDto) {
-        Player player = playerRepository.findById(id).get();
+        Player player = playerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
         BeanUtils.copyProperties(playerCreateUpdateDto, player);
         player.setTeam(teamService.getTeam(playerCreateUpdateDto.getTeam()));
         return playerRepository.save(player);
@@ -59,7 +57,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public void deletePlayer(Long id) {
-        Player player = playerRepository.findById(id).get();
+        Player player = playerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
         playerRepository.delete(player);
     }
 
@@ -73,13 +71,20 @@ public class PlayerServiceImpl implements PlayerService {
         Team teamBuyer = teamService.getTeam(transferDto.getIdOfTeam());
         Team teamSeller = playerToTransfer.getTeam();
 
-        BigDecimal valueOfTransfer = Calculation.getCostOfTransfer(
+        BigDecimal valueOfTransfer = CalculationUtil.getCostOfTransfer(
                 teamSeller.getCommissionForTransfer(),
                 playerToTransfer.getDateOfBirth(),
                 playerToTransfer.getStartOfCareer()
         );
 
-        teamBuyer.setBalance(teamBuyer.getBalance().subtract(valueOfTransfer));
+
+        if(teamBuyer.getBalance().subtract(valueOfTransfer).compareTo(BigDecimal.ZERO)>0){
+            teamBuyer.setBalance(teamBuyer.getBalance().subtract(valueOfTransfer));
+        }
+        else {
+            throw new ArithmeticException("Not enough money");
+        }
+
         TeamCreateUpdateDto buyerTeamCreateUpdateDto = new TeamCreateUpdateDto();
         BeanUtils.copyProperties(teamBuyer, buyerTeamCreateUpdateDto);
         teamService.updateTeam(buyerTeamCreateUpdateDto, teamBuyer.getId());

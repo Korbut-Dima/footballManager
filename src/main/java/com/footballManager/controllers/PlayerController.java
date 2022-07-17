@@ -17,21 +17,25 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Player createPlayer(@RequestBody PlayerCreateUpdateDto playerCreateUpdateDto){
         return playerService.createPlayer(playerCreateUpdateDto);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public Iterable<Player> getAllPlayers(){
         return playerService.getAllPlayers();
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public Player getPlayer (@PathVariable("id") Long id){
         return playerService.getPlayer(id);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
     public Player updatePlayer(@PathVariable("id") Long id, @RequestBody PlayerCreateUpdateDto playerCreateUpdateDto){
         return playerService.updatePlayer(id, playerCreateUpdateDto);
@@ -42,6 +46,7 @@ public class PlayerController {
         playerService.deletePlayer(id);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/transfer")
     public Player transferPlayer(@RequestBody TransferDto transferDto){
         return playerService.transferPlayer(transferDto);

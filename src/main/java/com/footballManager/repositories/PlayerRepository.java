@@ -7,5 +7,4 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface PlayerRepository extends CrudRepository<Player,Long> {
 
-    Player findByFullName(String nameOfPlayer);
 }

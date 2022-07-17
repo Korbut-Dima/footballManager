@@ -4,9 +4,8 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.temporal.ChronoUnit;
 
-public class Calculation {
+public class CalculationUtil {
     public static BigDecimal getCostOfTransfer(Float commissionForTransfer, Date dateOfBirth, Date startOfCareer) {
         LocalDate birthDate = dateOfBirth.toLocalDate();
         LocalDate careerStart = startOfCareer.toLocalDate();
