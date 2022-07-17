@@ -26,7 +26,8 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public Set<Player> getPlayersByTeam(Long id) {
-        return teamRepository.findById(id).get().getPlayers();
+        Team team = getTeam(id);
+        return team.getPlayers();
     }
 
     @Override
@@ -47,7 +48,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public Team updateTeam(TeamCreateUpdateDto teamCreateUpdateDto, Long id) {
-        Team team = teamRepository.findById(id).orElseThrow(()-> new EntityNotFoundException(id));
+        Team team = getTeam(id);
         BeanUtils.copyProperties(teamCreateUpdateDto, team);
 
         return teamRepository.save(team);
@@ -55,7 +56,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public void deleteTeam(Long id) {
-        Team team = teamRepository.findById(id).orElseThrow(()-> new EntityNotFoundException(id));
+        Team team = getTeam(id);
         teamRepository.delete(team);
     }
 }
