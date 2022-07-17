@@ -3,13 +3,25 @@ package com.footballManager.dto;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PlayerCreateUpdateDto {
+    @NotNull
+    @Size(min = 3,max = 32, message = "Your full name should be between 3 and 32 characters")
+    @Pattern(regexp = "[a-zA-Z ]*", message = "full name cannot contain any special characters and digits")
     private String fullName;
+    @NotNull
+    @Past
     private Date dateOfBirth;
+    @NotNull
+    @Past
     private Date startOfCareer;
+    @NotNull
     private Long team;
 
     public String getFullName() {

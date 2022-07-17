@@ -7,6 +7,8 @@ import com.footballManager.services.interfaces.PlayerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("players")
 public class PlayerController {
@@ -19,7 +21,7 @@ public class PlayerController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Player createPlayer(@RequestBody PlayerCreateUpdateDto playerCreateUpdateDto){
+    public Player createPlayer(@RequestBody @Valid PlayerCreateUpdateDto playerCreateUpdateDto){
         return playerService.createPlayer(playerCreateUpdateDto);
     }
 
@@ -37,9 +39,11 @@ public class PlayerController {
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
-    public Player updatePlayer(@PathVariable("id") Long id, @RequestBody PlayerCreateUpdateDto playerCreateUpdateDto){
+    public Player updatePlayer(@PathVariable("id") Long id,
+                               @RequestBody @Valid  PlayerCreateUpdateDto playerCreateUpdateDto){
         return playerService.updatePlayer(id, playerCreateUpdateDto);
     }
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void deletePlayer(@PathVariable("id") Long id){
@@ -48,7 +52,7 @@ public class PlayerController {
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/transfer")
-    public Player transferPlayer(@RequestBody TransferDto transferDto){
+    public Player transferPlayer(@RequestBody @Valid  TransferDto transferDto){
         return playerService.transferPlayer(transferDto);
     }
 

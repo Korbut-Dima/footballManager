@@ -7,6 +7,7 @@ import com.footballManager.services.interfaces.TeamService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Set;
 
 @RestController
@@ -39,13 +40,13 @@ public class TeamController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Team createTeam(@RequestBody TeamCreateUpdateDto teamCreateUpdateDto){
+    public Team createTeam(@RequestBody @Valid  TeamCreateUpdateDto teamCreateUpdateDto){
         return teamService.createTeam(teamCreateUpdateDto);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
-    public Team updateTeam(@RequestBody TeamCreateUpdateDto teamCreateUpdateDto, @PathVariable Long id){
+    public Team updateTeam(@RequestBody @Valid   TeamCreateUpdateDto teamCreateUpdateDto, @PathVariable Long id){
         return teamService.updateTeam(teamCreateUpdateDto, id);
     }
     @ResponseStatus(HttpStatus.NO_CONTENT)

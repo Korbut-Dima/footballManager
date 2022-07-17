@@ -49,7 +49,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Player updatePlayer(Long id, PlayerCreateUpdateDto playerCreateUpdateDto) {
-        Player player = playerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
+        Player player = getPlayer(id);
         BeanUtils.copyProperties(playerCreateUpdateDto, player);
         player.setTeam(teamService.getTeam(playerCreateUpdateDto.getTeam()));
         return playerRepository.save(player);
@@ -57,18 +57,17 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public void deletePlayer(Long id) {
-        Player player = playerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
+        Player player = getPlayer(id);
         playerRepository.delete(player);
     }
 
     @Override
     public Player transferPlayer(TransferDto transferDto) {
-        Player playerToTransfer = playerRepository.findById(transferDto.getIdOfPlayer())
-                .orElseThrow(()-> new EntityNotFoundException(transferDto.getIdOfPlayer()));
+        Player playerToTransfer = getPlayer(transferDto.getPlayer());
 
-        if(playerToTransfer.getTeam() != teamService.getTeam(transferDto.getIdOfTeam())){
+        if(playerToTransfer.getTeam() != teamService.getTeam(transferDto.getTeam())){
 
-        Team teamBuyer = teamService.getTeam(transferDto.getIdOfTeam());
+        Team teamBuyer = teamService.getTeam(transferDto.getTeam());
         Team teamSeller = playerToTransfer.getTeam();
 
         BigDecimal valueOfTransfer = CalculationUtil.getCostOfTransfer(
