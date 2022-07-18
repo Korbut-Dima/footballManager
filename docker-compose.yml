@@ -10,6 +10,7 @@ services:
       - POSTGRES_DB=footballManager
     networks:
       - postgres
+
   footmallmanager:
     build: .
     ports:
@@ -17,10 +18,11 @@ services:
     depends_on:
       - db
     environment:
-      - DB_NAME=farmtrade
-      - DB_USER=farmtrade
-      - DB_PASSWORD=farmtrade
+      - DB_NAME=footballManager
+      - DB_USER=footballManager
+      - DB_PASSWORD=footballManager
       - DB_PORT=5432
+      - DB_HOST=host.docker.internal
     networks:
       - postgres
 
