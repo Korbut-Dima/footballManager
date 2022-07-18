@@ -13,7 +13,7 @@ spring:
 
   datasource:
 
-    url: jdbc:postgresql://localhost:${DB_PORT:5432}/${DB_NAME:footballManager}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:footballManager}
     username: ${DB_USER:footballManager}
     password: ${DB_PASSWORD:footballManager}
     driverClassName: org.postgresql.Driver
