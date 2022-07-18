@@ -13,6 +13,7 @@ import com.footballManager.services.interfaces.TeamService;
 import com.footballManager.utils.CalculationUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
@@ -62,6 +63,7 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
+    @Transactional
     public Player transferPlayer(TransferDto transferDto) {
         Player playerToTransfer = getPlayer(transferDto.getPlayer());
 
@@ -77,12 +79,11 @@ public class PlayerServiceImpl implements PlayerService {
         );
 
 
-        if(teamBuyer.getBalance().subtract(valueOfTransfer).compareTo(BigDecimal.ZERO)>0){
-            teamBuyer.setBalance(teamBuyer.getBalance().subtract(valueOfTransfer));
-        }
-        else {
+        if(teamBuyer.getBalance().subtract(valueOfTransfer).compareTo(BigDecimal.ZERO)<0){
             throw new ArithmeticException("Not enough money");
         }
+
+        teamBuyer.setBalance(teamBuyer.getBalance().subtract(valueOfTransfer));
 
         TeamCreateUpdateDto buyerTeamCreateUpdateDto = new TeamCreateUpdateDto();
         BeanUtils.copyProperties(teamBuyer, buyerTeamCreateUpdateDto);
@@ -98,8 +99,8 @@ public class PlayerServiceImpl implements PlayerService {
         return playerRepository.save(playerToTransfer);
 
         }
-        else {
-            throw new ApiValidationException("Player is already in that team");
-        }
+
+        throw new ApiValidationException("Player is already in that team");
+
     }
 }
