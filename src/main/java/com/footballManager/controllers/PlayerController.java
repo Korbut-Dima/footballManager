@@ -4,6 +4,10 @@ import com.footballManager.dto.PlayerCreateUpdateDto;
 import com.footballManager.dto.TransferDto;
 import com.footballManager.entities.Player;
 import com.footballManager.services.interfaces.PlayerService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,30 +23,33 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
+
+    @GetMapping
+    public Page<Player> findAllByPage(@PageableDefault(size = 5) Pageable pageable){
+        return playerService.findAllByPage(pageable);
+    }
+
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Player createPlayer(@RequestBody @Valid PlayerCreateUpdateDto playerCreateUpdateDto){
         return playerService.createPlayer(playerCreateUpdateDto);
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping
-    public Iterable<Player> getAllPlayers(){
-        return playerService.getAllPlayers();
-    }
 
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public Player getPlayer (@PathVariable("id") Long id){
         return playerService.getPlayer(id);
     }
 
-    @ResponseStatus(HttpStatus.OK)
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
     public Player updatePlayer(@PathVariable("id") Long id,
                                @RequestBody @Valid  PlayerCreateUpdateDto playerCreateUpdateDto){
         return playerService.updatePlayer(id, playerCreateUpdateDto);
     }
+
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
@@ -50,7 +57,7 @@ public class PlayerController {
         playerService.deletePlayer(id);
     }
 
-    @ResponseStatus(HttpStatus.OK)
+
     @PostMapping("/transfer")
     public Player transferPlayer(@RequestBody @Valid  TransferDto transferDto){
         return playerService.transferPlayer(transferDto);

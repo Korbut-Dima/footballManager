@@ -16,7 +16,8 @@ public class TeamCreateUpdateDto {
     @Pattern(regexp = "[a-zA-Z ]*", message = "Tame of team cannot contain any special characters and digits")
     private String name;
     @NotNull
-    @Positive
+    @PositiveOrZero
+    @DecimalMax("0.1")
     private Float commissionForTransfer;
     @NotNull
     @PositiveOrZero

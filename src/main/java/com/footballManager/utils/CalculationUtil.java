@@ -1,6 +1,7 @@
 package com.footballManager.utils;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Period;
@@ -12,10 +13,11 @@ public class CalculationUtil {
         LocalDate current = LocalDate.now();
 
 
-        Integer age = Period.between(birthDate, current).getYears();
-        Integer experience = Period.between(careerStart, current).getMonths()+
-                (Period.between(careerStart,current).getYears()*12);
+        BigDecimal age = BigDecimal.valueOf(Period.between(birthDate, current).getYears());
+        BigDecimal experience = BigDecimal.valueOf(Period.between(careerStart, current).getMonths()+
+                (Period.between(careerStart,current).getYears()*12));
 
-        return BigDecimal.valueOf(experience*100000/age*(1+commissionForTransfer));
+        return experience.multiply(BigDecimal.valueOf(100000)).
+                divide(age, RoundingMode.HALF_DOWN).multiply(BigDecimal.valueOf(1+commissionForTransfer));
     }
 }
