@@ -20,19 +20,17 @@ public class TeamController {
         this.teamService = teamService;
     }
 
-    @ResponseStatus(HttpStatus.OK)
+
     @GetMapping("/{id}/players")
     public Set<Player> getPlayersByTeam(@PathVariable Long id){
       return teamService.getPlayersByTeam(id);
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public Team getTeam(@PathVariable Long id){
         return teamService.getTeam(id);
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public Iterable<Team> getAllTeams(){
         return teamService.getAllTeams();
@@ -44,11 +42,12 @@ public class TeamController {
         return teamService.createTeam(teamCreateUpdateDto);
     }
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
     public Team updateTeam(@RequestBody @Valid   TeamCreateUpdateDto teamCreateUpdateDto, @PathVariable Long id){
         return teamService.updateTeam(teamCreateUpdateDto, id);
     }
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void deleteTeam(@PathVariable Long id){

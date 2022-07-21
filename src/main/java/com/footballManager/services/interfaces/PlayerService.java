@@ -3,11 +3,11 @@ package com.footballManager.services.interfaces;
 import com.footballManager.dto.PlayerCreateUpdateDto;
 import com.footballManager.dto.TransferDto;
 import com.footballManager.entities.Player;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface PlayerService {
     Player createPlayer(PlayerCreateUpdateDto playerCreateUpdateDto);
-
-    Iterable<Player> getAllPlayers();
 
     Player getPlayer(Long id);
 
@@ -16,4 +16,6 @@ public interface PlayerService {
     void deletePlayer(Long id);
 
     Player transferPlayer(TransferDto transferDto);
+
+    Page<Player> findAllByPage(Pageable pageable);
 }

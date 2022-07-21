@@ -12,6 +12,8 @@ import com.footballManager.services.interfaces.PlayerService;
 import com.footballManager.services.interfaces.TeamService;
 import com.footballManager.utils.CalculationUtil;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,9 +30,10 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Iterable<Player> getAllPlayers() {
-        return playerRepository.findAll();
+    public Page<Player> findAllByPage(Pageable pageable) {
+        return playerRepository.findAll(pageable);
     }
+
 
     @Override
     public Player createPlayer(PlayerCreateUpdateDto playerCreateUpdateDto) {
