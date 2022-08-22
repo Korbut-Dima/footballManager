@@ -105,6 +105,7 @@ const save = (event) => {
     const form = document.getElementById('form-content');
 
     if (!form.checkValidity()) {
+        console.log("invalid data")
         return;
     }
     event.preventDefault();
