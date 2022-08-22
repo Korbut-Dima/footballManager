@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
@@ -27,6 +28,11 @@ public class PlayerServiceImpl implements PlayerService {
     public PlayerServiceImpl(PlayerRepository playerRepository,TeamService teamService) {
         this.playerRepository = playerRepository;
         this.teamService = teamService;
+    }
+
+    @Override
+    public Iterable<Player> findAll() {
+        return playerRepository.findAll();
     }
 
     @Override
