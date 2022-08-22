@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("players")
@@ -23,6 +24,10 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
+    @GetMapping("/all")
+    public Iterable<Player> getAllPlayers() {
+        return playerService.findAll();
+    }
 
     @GetMapping
     public Page<Player> findAllByPage(@PageableDefault(size = 5) Pageable pageable){

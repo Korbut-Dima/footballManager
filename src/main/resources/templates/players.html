@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Players</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+</head>
+<body>
+<div class="container">
+    <button
+            type="button"
+            class="btn btn-success mb-3 mt-3"
+            style="float: left" data-bs-toggle="modal"
+            data-bs-target="#create-update-modal"
+            onclick="setEmptyForm()"
+    >
+        Add New Player <i class="bi bi-plus"></i>
+    </button>
+
+    <table class="table" style="margin-top: 50px">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Team</th>
+            <th scope="col">Date of Birth</th>
+            <th scope="col">Start of Career</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody id="player-table-body">
+        </tbody>
+    </table>
+
+    <div class="modal fade" id="create-update-modal" tabindex="-1" aria-labelledby="editCreateLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form class="modal-content" id="form-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-name">Create New</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!--                    Блок для того шоб засунути туди ерору-->
+                    <div id="team-save-alert"></div>
+
+                    <div class="mb-3">
+                        <label for="player-fullname" class="form-label">Full name</label>
+                        <input type="text" pattern="[a-zA-Z ]*" class="form-control" id="player-fullname" minlength="2" maxlength="255" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="team-of-player" class="form-label">
+                            Team
+                        </label>
+                        <select id="team-of-player" class="form-select"  required>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="player-date-of-birth" class="form-label">Date of birth</label>
+                        <input type="date" class="form-control" id="player-date-of-birth" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="start-of-career" class="form-label">Start of career</label>
+                        <input type="date" class="form-control" id="start-of-career" required>
+                    </div>
+                    <!--                    Невидиме поле де буде айдішка-->
+                    <input id="player-id" style="visibility: hidden; height: 0">
+                </div>
+                <div class="modal-footer">
+                    <!--                        Он клік функція з джс-->
+                    <button id="player-close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" onclick="save(event)">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</div>
+<script src="/static/js/players.js" async defer></script>
+</body>
+</html>
