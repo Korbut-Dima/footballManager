@@ -20,11 +20,10 @@ const getTeams = async () => {
 
 const selectBuilder = async (teams) => {
    const selectBody = document.getElementById('team-of-player');
-   let selectContent = "";
-    await getTeams().then((teams) => teams.forEach(team =>
-        {
-        selectContent = selectContent + `<option value="${team.id}">${team.name}</option>`;
-        }));
+
+    selectContent = await getTeams().then(
+        teams => teams.reduce((a, team) => a + `<option value="${team.id}">${team.name}</option>`, '')
+    );
     selectBody.innerHTML = selectContent;
 }
 
@@ -61,6 +60,7 @@ const editPlayer = async (id) => {
 }
 
 const setForm = (player) => {
+
     document.getElementById('player-id').value = player.id || '';
     document.getElementById('player-fullname').value = player.fullName || '';
     document.getElementById('team-of-player').value = player.team.name || '';
@@ -105,6 +105,7 @@ const save = (event) => {
     const form = document.getElementById('form-content');
 
     if (!form.checkValidity()) {
+        console.log("invalid data")
         return;
     }
     event.preventDefault();
@@ -129,8 +130,8 @@ const closeModal = () => {
     const close = document.getElementById('player-close');
     close.click();
 }
-
 selectBuilder();
+
 getPlayers();
 
 
