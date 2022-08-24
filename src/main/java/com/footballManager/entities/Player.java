@@ -63,4 +63,39 @@ public class Player {
     public void setTeam(Team team) {
         this.team = team;
     }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", startOfCareer=" + startOfCareer +
+                ", team=" + team +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Player player = (Player) o;
+
+        if (id != null ? !id.equals(player.id) : player.id != null) return false;
+        if (!fullName.equals(player.fullName)) return false;
+        if (!dateOfBirth.equals(player.dateOfBirth)) return false;
+        if (!startOfCareer.equals(player.startOfCareer)) return false;
+        return team.equals(player.team);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + fullName.hashCode();
+        result = 31 * result + dateOfBirth.hashCode();
+        result = 31 * result + startOfCareer.hashCode();
+        result = 31 * result + team.hashCode();
+        return result;
+    }
 }

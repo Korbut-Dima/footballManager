@@ -1,5 +1,6 @@
 package com.footballManager.dto;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class TeamCreateUpdateDto {
     @NotNull
     @Size(min = 2,max = 255, message = "Tame of team should be between 3 and 255 characters")

@@ -87,7 +87,7 @@ const  updatePlayer = async (id, body) => {
                    getPlayers();
                }
            });
-           console.log(body);
+
 }
 
 const createPlayer = async (body) => {

@@ -15,12 +15,12 @@ import java.util.Set;
 public class TeamServiceImpl implements TeamService {
     private final TeamRepository teamRepository;
 
-    public TeamServiceImpl(PlayerRepository playerRepository, TeamRepository teamRepository) {
+    public TeamServiceImpl(TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
     }
 
     @Override
-    public Team getTeam(Long id) {
+    public Team getTeam(Long id) throws EntityNotFoundException{
         return teamRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
     }
 

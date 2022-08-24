@@ -63,4 +63,35 @@ public class Team {
     public void setPlayers(Set<Player> players) {
         this.players = players;
     }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", commissionForTransfer=" + commissionForTransfer +
+                ", balance=" + balance +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Team team = (Team) o;
+
+        if (id != null ? !id.equals(team.id) : team.id != null) return false;
+        if (!name.equals(team.name)) return false;
+        if (!commissionForTransfer.equals(team.commissionForTransfer)) return false;
+        return balance.equals(team.balance);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + commissionForTransfer.hashCode();
+        result = 31 * result + balance.hashCode();
+        return result;
+    }
 }

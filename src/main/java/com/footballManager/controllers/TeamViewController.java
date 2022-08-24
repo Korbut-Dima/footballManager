@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 // Regular non rest controler
 @Controller
 @RequestMapping("/view")
-public class ViewController {
+public class TeamViewController {
 
     // Method to display teams view
     @GetMapping("/teams")
