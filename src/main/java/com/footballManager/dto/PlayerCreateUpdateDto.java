@@ -1,7 +1,9 @@
 package com.footballManager.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -10,6 +12,8 @@ import javax.validation.constraints.Size;
 import java.sql.Date;
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@ToString
 public class PlayerCreateUpdateDto {
     @NotNull
     @Size(min = 3,max = 32, message = "Your full name should be between 3 and 32 characters")
