@@ -25,4 +25,9 @@ public class TeamCreateUpdateDto {
     @PositiveOrZero
     private BigDecimal balance;
 
+    public String toJSON(){
+        return String.format("{\"name\":\"%s\",\"commissionForTransfer\":%s,\"balance\":%s}",
+                name,commissionForTransfer,balance);
+    }
+
 }

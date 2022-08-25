@@ -32,6 +32,7 @@ class TeamServiceImplTest {
     private TeamServiceImpl teamServiceImpl;
     @Mock
     private TeamRepository teamRepository;
+
     private Player mockPlayer;
     private Team mockTeam;
 
@@ -66,7 +67,6 @@ class TeamServiceImplTest {
 
     @Test
     void findNonExistingTeam(){
-
         assertThatThrownBy(() -> teamServiceImpl.getTeam(anyLong()))
                 .isInstanceOf(EntityNotFoundException.class);
     }
@@ -80,7 +80,6 @@ class TeamServiceImplTest {
 
         verify(teamRepository, times(1)).findAll();
         assertThat(teams.contains(mockTeam)).isTrue();
-
     }
 
     @Test
@@ -95,8 +94,7 @@ class TeamServiceImplTest {
 
         ArgumentCaptor<Team> teamArgumentCaptor = ArgumentCaptor.forClass(Team.class);
         verify(teamRepository, times(1)).save(teamArgumentCaptor.capture());
-       assertThat(teamArgumentCaptor.getValue()).isEqualTo(mockTeam);
-
+        assertThat(teamArgumentCaptor.getValue()).isEqualTo(mockTeam);
     }
 
     @Test
@@ -106,8 +104,7 @@ class TeamServiceImplTest {
                .commissionForTransfer((float) 0.02)
                .balance(BigDecimal.valueOf(1200000)).build();
 
-
-        TeamCreateUpdateDto teamCreateUpdateDto = TeamCreateUpdateDto.builder()
+       TeamCreateUpdateDto teamCreateUpdateDto = TeamCreateUpdateDto.builder()
                  .name("Liverpool")
                .commissionForTransfer((float) 0.02)
                .balance(BigDecimal.valueOf(1200000)).build();
@@ -122,6 +119,7 @@ class TeamServiceImplTest {
     @Test
     void deleteTeam() {
         given(teamRepository.findById(anyLong())).willReturn(Optional.of(mockTeam));
+
         teamServiceImpl.deleteTeam(1L);
         ArgumentCaptor<Team> teamArgumentCaptor = ArgumentCaptor.forClass(Team.class);
         verify(teamRepository,times(1)).delete(teamArgumentCaptor.capture());

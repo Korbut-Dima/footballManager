@@ -109,8 +109,6 @@ class PlayerServiceImplTest {
         assertThat(resultPlayer).isEqualTo(mockPlayer);
     }
 
-
-
     @Test
     void getOnePlayer() {
         given(playerRepository.findById(anyLong())).willReturn(Optional.of(mockPlayer));
@@ -125,7 +123,6 @@ class PlayerServiceImplTest {
 
     @Test
     void findNonExistingPlayer(){
-
         assertThatThrownBy(() -> playerServiceImpl.getPlayer(anyLong()))
                 .isInstanceOf(EntityNotFoundException.class);
     }
@@ -159,13 +156,12 @@ class PlayerServiceImplTest {
     @Test
     void deletePlayer() {
         given(playerRepository.findById(1L)).willReturn(Optional.of(mockPlayer));
+
         playerServiceImpl.deletePlayer(1L);
         ArgumentCaptor<Player> playerArgumentCaptor = ArgumentCaptor.forClass(Player.class);
         verify(playerRepository,times(1)).delete(playerArgumentCaptor.capture());
 
         assertThat(playerArgumentCaptor.getValue()).isEqualTo(mockPlayer);
-
-
     }
 
     @Test
@@ -187,7 +183,6 @@ class PlayerServiceImplTest {
         given(playerRepository.findById(anyLong())).willReturn(Optional.of(mockPlayer));
 
         //Then
-
         playerServiceImpl.transferPlayer(transferDto);
 
         assertThat(transferToTeam.getBalance().setScale(0, RoundingMode.HALF_UP))
@@ -206,6 +201,7 @@ class PlayerServiceImplTest {
     void transferToTheSameTeam(){
         given(teamService.getTeam(anyLong())).willReturn(mockTeam);
         given(playerRepository.findById(anyLong())).willReturn(Optional.of(mockPlayer));
+
         TransferDto transferDto = TransferDto.builder()
                 .player(1L)
                 .team(2L).build();
@@ -235,7 +231,5 @@ class PlayerServiceImplTest {
 
         assertThatThrownBy(() -> playerServiceImpl.transferPlayer(transferDto))
                 .isInstanceOf(ArithmeticException.class).hasMessageContaining("Not enough money");
-
-
     }
 }

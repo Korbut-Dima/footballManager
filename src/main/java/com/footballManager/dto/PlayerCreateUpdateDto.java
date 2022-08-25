@@ -59,4 +59,9 @@ public class PlayerCreateUpdateDto {
     public void setTeam(Long team) {
         this.team = team;
     }
+
+    public String toJSON(){
+        return  String.format("{\"fullName\":\"%s\",\"dateOfBirth\":\"%s\",\"startOfCareer\":\"%s\",\"team\":%s}",
+                fullName,dateOfBirth,startOfCareer,team);
+    }
 }

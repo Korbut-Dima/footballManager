@@ -73,6 +73,10 @@ public class Team {
                 ", balance=" + balance +
                 '}';
     }
+    public String toJSON(){
+        return String.format("{\"id\":%s,\"name\":\"%s\",\"commissionForTransfer\":%s,\"balance\":%s}",
+                id,name,commissionForTransfer,balance);
+    }
 
     @Override
     public boolean equals(Object o) {
