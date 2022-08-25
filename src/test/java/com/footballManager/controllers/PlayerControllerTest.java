@@ -57,16 +57,13 @@ class PlayerControllerTest {
                 .team(mockTeam).build();
     }
 
-
     @Test
     void findAll() throws Exception {
         given(playerService.findAll()).willReturn(List.of(mockPlayer));
 
-
-         mockMvc.perform(get("/players/all"))
+        mockMvc.perform(get("/players/all"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("["+mockPlayer.toJSON()+"]"));
-
     }
 
     @Test
@@ -85,7 +82,6 @@ class PlayerControllerTest {
                 .content(playerCreateUpdateDto.toJSON()))
                 .andExpect(status().isCreated())
                 .andExpect(content().string(mockPlayer.toJSON()));
-
     }
 
     @Test

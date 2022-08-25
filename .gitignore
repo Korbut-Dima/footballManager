@@ -32,3 +32,4 @@ build/
 ### VS Code ###
 .vscode/
 /src/test/java/com/footballManager/UnitTestHelper/UnitTestHelper.java
+/src/test/java/com/footballManager/services/impl/UnitTestHelper.java
