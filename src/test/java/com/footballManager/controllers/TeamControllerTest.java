@@ -3,6 +3,7 @@ package com.footballManager.controllers;
 import com.footballManager.configurations.PlayerTestConfiguration;
 import com.footballManager.configurations.TeamTestConfiguration;
 import com.footballManager.dto.TeamCreateUpdateDto;
+import com.footballManager.entities.Player;
 import com.footballManager.entities.Team;
 import com.footballManager.services.impl.TeamServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +18,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -37,6 +42,7 @@ class TeamControllerTest {
     @Autowired
     private TeamServiceImpl teamService;
     private Team mockTeam;
+    private Player mockPlayer;
 
     @BeforeEach
     void setUp() {
@@ -46,6 +52,22 @@ class TeamControllerTest {
                 .commissionForTransfer((float) 0.09)
                 .balance(BigDecimal.valueOf(2000000))
                 .build();
+
+        mockPlayer = Player.builder().fullName("Xsavie")
+                .dateOfBirth(Date.valueOf("1999-12-12"))
+                .startOfCareer(Date.valueOf("2019-12-02"))
+                .team(mockTeam).build();
+    }
+
+    @Test
+    void getPlayersByTeam() throws Exception {
+        Set<Player> players =new HashSet<>();
+        players.add(mockPlayer);
+        given(teamService.getPlayersByTeam(anyLong())).willReturn(players);
+
+        mockMvc.perform(get("/teams/1/players"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("["+mockPlayer.toJSON()+"]"));
     }
 
     @Test
