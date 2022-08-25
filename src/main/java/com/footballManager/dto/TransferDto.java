@@ -17,4 +17,8 @@ public class TransferDto {
     @NotNull
     private Long team;
 
+    public String toJSON() {
+        return  String.format("{\"player\":%s,\"team\":%s}",
+                player ,team);
+    }
 }

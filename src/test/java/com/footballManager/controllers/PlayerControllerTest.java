@@ -2,6 +2,7 @@ package com.footballManager.controllers;
 
 import com.footballManager.configurations.PlayerTestConfiguration;
 import com.footballManager.dto.PlayerCreateUpdateDto;
+import com.footballManager.dto.TransferDto;
 import com.footballManager.entities.Player;
 import com.footballManager.entities.Team;
 import com.footballManager.services.impl.PlayerServiceImpl;
@@ -12,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -21,10 +23,10 @@ import java.sql.Date;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = {PlayerController.class})
 @ExtendWith(MockitoExtension.class)
@@ -45,7 +47,7 @@ class PlayerControllerTest {
     @BeforeEach
     void setUp(){
         mockTeam = Team.builder()
-                .id(Long.valueOf(1))
+                .id(1L)
                 .name("Bukovina")
                 .commissionForTransfer((float) 0.1)
                 .balance(BigDecimal.valueOf(2000000))
@@ -55,6 +57,24 @@ class PlayerControllerTest {
                 .dateOfBirth(Date.valueOf("1999-12-12"))
                 .startOfCareer(Date.valueOf("2019-12-02"))
                 .team(mockTeam).build();
+    }
+
+    @Test
+    void getPlayer() throws Exception {
+        given(playerService.getPlayer(anyLong())).willReturn(mockPlayer);
+
+        mockMvc.perform(get("/players/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(mockPlayer.toJSON()));
+    }
+
+    @Test
+    void findByPage() throws Exception {
+        Page<Player> page = Page.empty();
+        given(playerService.findAllByPage(any())).willReturn(page);
+        mockMvc.perform(get("/players?page=0"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").exists());
     }
 
     @Test
@@ -114,6 +134,20 @@ class PlayerControllerTest {
     void deletePlayer() throws Exception {
         mockMvc.perform(delete("/players/1").contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)).andExpect(status().isNoContent());
+    }
+
+    @Test
+    void transfer() throws Exception {
+        TransferDto transferDto = TransferDto.builder()
+                .team(2L)
+                .player(1L)
+                .build();
+
+        mockMvc.perform(post("/players/transfer")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(transferDto.toJSON()))
+                .andExpect(status().is2xxSuccessful());
     }
 
     @Test
