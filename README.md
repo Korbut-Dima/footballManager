@@ -1,5 +1,5 @@
 # footballManager
-REST API with using Spring boot and Hibernate
+REST API with using Spring boot and Hibernate, covered with Unit and Integration tests
 
 To start the project you should have installed : maven, docker and openJDK:17
 1. Download and unzip project or git clone
@@ -16,3 +16,4 @@ Topics that are covered in this project:
 - Transactions
 - Dto pattern 
 - PostgreSQL
+- Mockito
