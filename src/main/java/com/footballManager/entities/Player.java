@@ -64,11 +64,15 @@ public class Player {
         this.team = team;
     }
 
+    public String toJSON(){
+        return  String.format("{\"id\":%s,\"fullName\":\"%s\",\"dateOfBirth\":\"%s\",\"startOfCareer\":\"%s\",\"team\":%s}",
+                id,fullName,dateOfBirth,startOfCareer,team.toJSON());
+    }
+
     @Override
     public String toString() {
         return "Player{" +
-                "id=" + id +
-                ", fullName='" + fullName + '\'' +
+                "fullName='" + fullName + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 ", startOfCareer=" + startOfCareer +
                 ", team=" + team +
