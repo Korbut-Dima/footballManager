@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Set;
-
+@CrossOrigin
 @RestController
-@RequestMapping("teams")
+@RequestMapping("api/teams")
 public class TeamController {
 
     private TeamService teamService;
